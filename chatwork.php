@@ -15,13 +15,13 @@ if (isset($vargs['room_id']) && isset($vargs['token'])) {
     $header = [];
     $header[] = 'X-ChatWorkToken: ' . $vargs['token'];
     $params = ['body' => $body];
-    
+
     $rooms = [];
     $rooms = is_array($vargs['room_id']) ? $vargs['room_id'] : [$vargs['room_id']];
-    
+
     foreach ($rooms as $room) {
         echo 'Room ' . $room . ': ';
-        
+
         $url = 'https://api.chatwork.com/v1/rooms/' . $room . '/messages';
         if ($result = callCurl($url, $params, $header)) {
             $res = json_decode($result, true);
@@ -48,7 +48,7 @@ function callCurl($url, $params, $header = [])
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $result = curl_exec($ch);
     curl_close($ch);
-    
+
     return $result;
 }
 function formatBody($format, $arguments)
@@ -58,7 +58,7 @@ function formatBody($format, $arguments)
         function ($match) use ($arguments) {
             $key = explode(".", trim($match[1]));
             if (count($key) == 2) {
-                return ($arguments[$key[0]] && $arguments[$key[0]][$key[1]]) ? $arguments[$key[0]][$key[1]] : '';
+                return ($arguments[$key[0]] && $arguments[$key[0]][$key[1]]) ? (($key[1] == 'status') ? strtoupper($arguments[$key[0]][$key[1]]) : $arguments[$key[0]][$key[1]]) : '';
             }
             return '';
         },
