@@ -22,7 +22,7 @@ if (isset($vargs['room_id']) && isset($vargs['token'])) {
     foreach ($rooms as $room) {
         echo 'Room ' . $room . ': ';
 
-        $url = 'https://api.chatwork.com/v1/rooms/' . $room . '/messages';
+        $url = 'https://api.chatwork.com/v2/rooms/' . $room . '/messages';
         if ($result = callCurl($url, $params, $header)) {
             $res = json_decode($result, true);
             if (isset($res['errors'])) {
